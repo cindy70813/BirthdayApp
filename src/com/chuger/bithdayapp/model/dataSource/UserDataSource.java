@@ -160,6 +160,11 @@ public class UserDataSource {
         return findUser(cursor);
     }
 
+    public User findByid(final Long uid) {
+        final Cursor cursor = database.query(TABLE_USER, ALL_COLUMNS, COLUMN_ID + "=" + uid, null, null, null, null);
+        return findUser(cursor);
+    }
+
     public User findUser(final Cursor cursor) {
         cursor.moveToFirst();
         final User user = !cursor.isAfterLast() ? new CursorHelper(cursor).getUser() : null;

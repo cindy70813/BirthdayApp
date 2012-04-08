@@ -2,6 +2,7 @@ package com.chuger.bithdayapp.model.domain;
 
 import com.chuger.bithdayapp.model.utils.DateTimeUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * Date: 08.02.12
  * Time: 13:32
  */
-public class User {
+public class User implements Serializable {
 
     private Long id;
     private Long facebookId;
@@ -76,7 +77,8 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("User{firstName='%s', lastName='%s', bday ='%s'}", firstName, lastName, DateTimeUtils.format(birthday));
+        return String.format("User{firstName='%s', lastName='%s', bday ='%s'}", firstName, lastName,
+                DateTimeUtils.format(birthday));
     }
 
     public Date getBirthday() {

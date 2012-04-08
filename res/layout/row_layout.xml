@@ -8,8 +8,7 @@
             android:layout_width="50dip"
             android:layout_height="50dip"
             android:layout_marginRight="5dip"
-            android:src="@drawable/stub">
-    </ImageView>
+            android:src="@drawable/stub"/>
 
     <TableLayout
             android:layout_width="match_parent"
@@ -21,7 +20,7 @@
                     android:id="@+id/userInfo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Surname Name"
+                    android:text="@string/default_surname"
                     android:gravity="left|top"
                     android:textSize="20dip"/>
             <TextView
@@ -29,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="right|top"
-                    android:text="74"
+                    android:text="@string/default_days"
                     android:textSize="12dip"/>
         </TableRow>
         <TableRow>
@@ -37,7 +36,7 @@
                     android:id="@+id/birthday"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="13.09.1990"
+                    android:text="@string/default_birthday"
                     android:gravity="left|bottom"
                     android:textSize="14dip"/>
             <TextView
@@ -45,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="right|bottom"
-                    android:text="22 year"
+                    android:text="@string/default_year"
                     android:textSize="12dip"/>
         </TableRow>
     </TableLayout>

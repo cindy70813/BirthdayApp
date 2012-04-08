@@ -26,11 +26,11 @@ import static java.lang.String.valueOf;
 public class UserInfoLoader {
     private Map<Integer, User> userMap;
     private final Activity activity;
-    private final ImageLoader imageLoader;
+//    private final ImageLoader imageLoader;
 
     public UserInfoLoader(final Activity activity) {
         this.activity = activity;
-        imageLoader = new ImageLoader(activity);
+//        imageLoader = new ImageLoader(activity);
         userMap = Collections.synchronizedMap(new WeakHashMap<Integer, User>());
     }
 
@@ -93,7 +93,7 @@ public class UserInfoLoader {
 
                     final String surnameName = user.getLastName() + " " + user.getFirstName();
                     viewHolder.userInfo.setText(surnameName.trim());
-                    imageLoader.displayImage(user.getPicUrl(), viewHolder.imageView);
+//                    imageLoader.displayImage(user.getPicUrl(), viewHolder.imageView);
                 }
             } catch (NullPointerException e) {
                 Log.e(TAG, e.getMessage(), e);

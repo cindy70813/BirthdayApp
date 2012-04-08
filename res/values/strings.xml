@@ -10,4 +10,9 @@
     <string name="facebook_post_publishing_failed">Post publishing was failed</string>
     <string name="facebook_logged_out">You are logged out</string>
     <string name="authorization">Authorization</string>
+    <string name="default_birthday">13.09.1990</string>
+    <string name="default_year">22 year</string>
+    <string name="default_days">74</string>
+    <string name="default_surname">Surname Name</string>
+    <string name="dialog_ok">OK</string>
 </resources>

@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class VkontakteWebViewClient extends WebViewClient {
     private final String TAG = VkontakteWebViewClient.class.getSimpleName();
-    private final String VK_OAUTH_HOST = "api.vkontakte.ru";
+    private final String VK_OAUTH_HOST = "oauth.vk.com";
     private final String VK_OAUTH_PATH = "/blank.html";
     private final String VK_ACCESS_TOKEN_ALIAS = "access_token";
     private final AuthListener authListener;

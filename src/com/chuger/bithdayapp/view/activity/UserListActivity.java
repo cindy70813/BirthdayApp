@@ -1,5 +1,6 @@
 package com.chuger.bithdayapp.view.activity;
 
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,16 +8,24 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.chuger.R;
 import com.chuger.bithdayapp.controller.chain.locator.ChainLocator;
 import com.chuger.bithdayapp.model.dataSource.UserDataSource;
+import com.chuger.bithdayapp.model.domain.User;
+import com.chuger.bithdayapp.model.utils.DateTimeUtils;
 import com.chuger.bithdayapp.model.utils.StringUtils;
 import com.chuger.bithdayapp.view.activity.asyncTask.ConnectToDatabaseTask;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 import static com.chuger.bithdayapp.controller.chain.locator.ChainLocator.getChain;
+import static java.lang.String.valueOf;
 
 /**
  * User: Acer5740
@@ -42,6 +51,52 @@ public class UserListActivity extends ListActivity {
 
     @Override
     protected void onListItemClick(final ListView listView, final View view, final int position, final long id) {
+        try {
+            final UserDataSource instance = UserDataSource.getInstance();
+            instance.openRead();
+            final User user = instance.findByid(id);
+            if (user != null) {
+                final Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.dialog);
+                dialog.setTitle("User info:");
+                dialog.setCancelable(true);
+
+                final TextView userInfo = (TextView) dialog.findViewById(R.id.userInfo);
+                final TextView dayCount = (TextView) dialog.findViewById(R.id.dayCount);
+                final TextView yearCount = (TextView) dialog.findViewById(R.id.yearCount);
+                final TextView birthday = (TextView) dialog.findViewById(R.id.birthday);
+                final Button dialogBtn = (Button) dialog.findViewById(R.id.dialogBtn);
+
+                final Date birthdayDate = user.getBirthday();
+
+                if (birthdayDate != null) {
+                    final boolean isUnknownYear = user.getYearUnknown();
+                    final DateTimeFormatter formatter =
+                            isUnknownYear ? DateTimeUtils.SHORT_DATE_FORMAT : DateTimeUtils.LONG_DATE_FORMAT;
+                    final Integer yearCountInt = user.getYearCount();
+                    final Integer dayCountInt = user.getDayCount();
+
+                    userInfo.setText(user.getLastName() + " " + user.getFirstName());
+                    yearCount.setText(
+                            !isUnknownYear && yearCountInt != null && yearCountInt > 0 ? yearCountInt + " year" :
+                                    "n/a");
+                    dayCount.setText(dayCountInt != null ? valueOf(dayCountInt) : "TODAY");
+                    birthday.setText(new DateTime(birthdayDate).toString(formatter));
+                    dialogBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void onClick(final View view) {

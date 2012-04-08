@@ -1,8 +1,8 @@
 package com.chuger.bithdayapp.controller.chain.auth.request.impl;
 
 import android.content.Context;
-import com.chuger.bithdayapp.controller.chain.chain.Chain;
 import com.chuger.bithdayapp.controller.chain.auth.request.AbstractRequestListener;
+import com.chuger.bithdayapp.controller.chain.chain.Chain;
 import com.facebook.android.Facebook;
 
 import static com.facebook.android.Facebook.FORCE_DIALOG_AUTH;
