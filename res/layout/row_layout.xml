@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:orientation="horizontal"
+              android:layout_height="50dip">
+    <ImageView
+            android:id="@+id/icon"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_marginRight="5dip"
+            android:src="@drawable/stub">
+    </ImageView>
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:stretchColumns="1"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dip">
+        <TableRow>
+            <TextView
+                    android:id="@+id/userInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Surname Name"
+                    android:gravity="left|top"
+                    android:textSize="20dip"/>
+            <TextView
+                    android:id="@+id/dayCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right|top"
+                    android:text="74"
+                    android:textSize="12dip"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                    android:id="@+id/birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="13.09.1990"
+                    android:gravity="left|bottom"
+                    android:textSize="14dip"/>
+            <TextView
+                    android:id="@+id/yearCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right|bottom"
+                    android:text="22 year"
+                    android:textSize="12dip"/>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

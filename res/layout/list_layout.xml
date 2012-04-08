@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ListView android:id="@android:id/list"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"/>
+
+    <LinearLayout
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
+        <ImageView
+                android:id="@+id/fbBtn"
+                android:layout_width="70dip"
+                android:layout_height="70dip"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:layout_marginRight="8dip"
+                android:scaleType="fitXY"
+                android:src="@drawable/fb_icon">
+        </ImageView>
+        <ImageView
+                android:id="@+id/vkBtn"
+                android:layout_width="70dip"
+                android:layout_height="70dip"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:scaleType="fitXY"
+                android:src="@drawable/vk_icon">
+        </ImageView>
+        <ImageView
+                android:id="@+id/gBtn"
+                android:layout_width="85dip"
+                android:layout_height="85dip"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/google_icon">
+        </ImageView>
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
+                  android:layout_height="wrap_content" android:orientation="horizontal"
+                  android:layout_alignParentBottom="true" style="@android:style/ButtonBar">
+
+        <Button android:id="@+id/saveButton" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="menu_done"/>
+
+        <Button android:id="@+id/cancelButton" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="menu_cancel"/>
+    </LinearLayout>
+
+</LinearLayout>
