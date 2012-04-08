@@ -1,9 +1,10 @@
 package com.chuger.bithdayapp.controller.chain.chain;
 
-import com.chuger.bithdayapp.controller.chain.auth.responseListener.AuthListener;
+import com.chuger.bithdayapp.controller.chain.auth.request.AuthRequest;
+import com.chuger.bithdayapp.controller.chain.auth.responseListener.DialogListener;
 import com.chuger.bithdayapp.controller.chain.birthday.request.BirthdayCaller;
 import com.chuger.bithdayapp.controller.chain.birthday.responseListener.BirthdayResponse;
-import com.chuger.bithdayapp.controller.chain.auth.request.AuthRequest;
+
 
 /**
  * User: Acer5740
@@ -14,7 +15,7 @@ public interface Chain {
 
     AuthRequest getAuthRequest();
 
-    AuthListener getAuthListener();
+    DialogListener getAuthListener();
 
     BirthdayCaller getBirthdayCaller();
 
@@ -29,4 +30,6 @@ public interface Chain {
     String getAppId();
 
     String[] getPermissions();
+
+    String getAccessTokenAlias();
 }

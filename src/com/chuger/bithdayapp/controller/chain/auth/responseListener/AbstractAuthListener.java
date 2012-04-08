@@ -1,5 +1,7 @@
 package com.chuger.bithdayapp.controller.chain.auth.responseListener;
 
+import android.util.Log;
+import com.chuger.bithdayapp.controller.chain.GetChain;
 import com.chuger.bithdayapp.controller.chain.chain.Chain;
 
 /**
@@ -7,8 +9,9 @@ import com.chuger.bithdayapp.controller.chain.chain.Chain;
  * Date: 25.02.12
  * Time: 5:17
  */
-public abstract class AbstractAuthListener implements AuthListener{
+public abstract class AbstractAuthListener implements GetChain, DialogListener {
     private Chain chain;
+    private static final String TAG = AbstractAuthListener.class.getSimpleName();
 
     public AbstractAuthListener(Chain chain) {
         this.chain = chain;
@@ -17,5 +20,14 @@ public abstract class AbstractAuthListener implements AuthListener{
     @Override
     public Chain getChain() {
         return chain;
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        Log.e(TAG, e.getMessage(), e);
+    }
+
+    @Override
+    public void onCancel() {
     }
 }

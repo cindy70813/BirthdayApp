@@ -1,14 +1,14 @@
 package com.chuger.bithdayapp.controller.chain.chain.impl;
 
-import com.chuger.bithdayapp.controller.chain.auth.responseListener.AuthListener;
+import com.chuger.bithdayapp.controller.chain.auth.request.AuthRequest;
+import com.chuger.bithdayapp.controller.chain.auth.request.impl.VkAuthRequest;
+import com.chuger.bithdayapp.controller.chain.auth.responseListener.DialogListener;
 import com.chuger.bithdayapp.controller.chain.auth.responseListener.impl.VkAuthListener;
 import com.chuger.bithdayapp.controller.chain.birthday.request.BirthdayCaller;
 import com.chuger.bithdayapp.controller.chain.birthday.request.impl.VkBirthdayCaller;
 import com.chuger.bithdayapp.controller.chain.birthday.responseListener.BirthdayResponse;
 import com.chuger.bithdayapp.controller.chain.birthday.responseListener.impl.VkBirthdayResponse;
 import com.chuger.bithdayapp.controller.chain.chain.AbstractChain;
-import com.chuger.bithdayapp.controller.chain.auth.request.AuthRequest;
-import com.chuger.bithdayapp.controller.chain.auth.request.impl.VkAuthRequest;
 
 /**
  * User: Acer5740
@@ -18,17 +18,18 @@ import com.chuger.bithdayapp.controller.chain.auth.request.impl.VkAuthRequest;
 public class VkChain extends AbstractChain {
 
     private final AuthRequest authRequest = new VkAuthRequest(this);
-    private final AuthListener authListener = new VkAuthListener(this);
+    private final DialogListener authListener = new VkAuthListener(this);
     private final BirthdayCaller birthdayCaller = new VkBirthdayCaller(this);
     private final BirthdayResponse birthdayResponse = new VkBirthdayResponse(this);
     private static final String APP_ID = "2815097";
     public static final String[] PERMISSIONS = {"friends"};
+    public static final String TOKEN = "access_token";
 
     public AuthRequest getAuthRequest() {
         return authRequest;
     }
 
-    public AuthListener getAuthListener() {
+    public DialogListener getAuthListener() {
         return authListener;
     }
 
@@ -48,5 +49,10 @@ public class VkChain extends AbstractChain {
     @Override
     public String[] getPermissions() {
         return PERMISSIONS;
+    }
+
+    @Override
+    public String getAccessTokenAlias() {
+        return TOKEN;
     }
 }

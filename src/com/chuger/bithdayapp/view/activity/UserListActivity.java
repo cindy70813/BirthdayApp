@@ -159,8 +159,8 @@ public class UserListActivity extends ListActivity {
         return false;
     }
 
-    private static final int NOTIFY_ID = 1;
-
+    //    private static final int NOTIFY_ID = 1;
+    //
     //    private void setAlarm() {
     //        final Calendar calendar = Calendar.getInstance();
     //        calendar.add(Calendar.MINUTE, 1);
