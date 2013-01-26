@@ -1,0 +1,8 @@
+Current version 0.3-Beta
+
+Android application for sync birthdays from social networks (facebook.com, vk.com), google contacts and show them in one list. Supports android 2.2 or higher. Authorization with outer systems made via oath2 with standart dialog (app not store passwords). 
+
+Birthday app depends on modules sharing on github:
+https://github.com/thest1/LazyList.git (lazy image loading)
+https://github.com/pakerfeldt/android-viewflow.git (view-flow 4.0 module)
+https://github.com/facebook/facebook-android-sdk (facebook)
