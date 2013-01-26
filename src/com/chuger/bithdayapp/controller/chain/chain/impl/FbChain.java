@@ -1,6 +1,6 @@
 package com.chuger.bithdayapp.controller.chain.chain.impl;
 
-import com.chuger.bithdayapp.controller.chain.auth.responseListener.DialogListener;
+import com.chuger.bithdayapp.controller.chain.auth.responseListener.AuthListener;
 import com.chuger.bithdayapp.controller.chain.auth.responseListener.impl.FbAuthListener;
 import com.chuger.bithdayapp.controller.chain.birthday.request.BirthdayCaller;
 import com.chuger.bithdayapp.controller.chain.birthday.request.impl.FbBirthdayCaller;
@@ -18,7 +18,7 @@ import com.chuger.bithdayapp.controller.chain.auth.request.impl.FbAuthRequest;
  */
 public class FbChain extends AbstractChain {
     private final AuthRequest authRequest = new FbAuthRequest(this);
-    private final DialogListener authListener = new FbAuthListener(this);
+    private final AuthListener authListener = new FbAuthListener(this);
     private final BirthdayCaller birthdayCaller = new FbBirthdayCaller(this);
     private final BirthdayResponse birthdayResponse = new FbBirthdayResponse(this);
     private static final String APP_ID = "377146995633351";
@@ -29,7 +29,7 @@ public class FbChain extends AbstractChain {
         return authRequest;
     }
 
-    public DialogListener getAuthListener() {
+    public AuthListener getAuthListener() {
         return authListener;
     }
 

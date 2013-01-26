@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.webkit.CookieSyncManager;
 import com.chuger.bithdayapp.controller.chain.auth.request.AbstractRequestListener;
-import com.chuger.bithdayapp.controller.chain.auth.responseListener.DialogListener;
+import com.chuger.bithdayapp.controller.chain.auth.responseListener.AuthListener;
 import com.chuger.bithdayapp.controller.chain.chain.Chain;
 import com.chuger.bithdayapp.view.auth.AuthDialog;
 import com.facebook.android.Facebook;
@@ -43,7 +43,7 @@ public class FbAuthRequest extends AbstractRequestListener {
         startDialogAuth(context, chain.getPermissions(), chain.getAuthListener());
     }
 
-    private void startDialogAuth(final Context activity, final String[] permissions, DialogListener listener) {
+    private void startDialogAuth(final Context activity, final String[] permissions, AuthListener listener) {
         final Bundle params = new Bundle();
         if (permissions.length > 0) {
             params.putString("scope", TextUtils.join(",", permissions));
@@ -53,7 +53,7 @@ public class FbAuthRequest extends AbstractRequestListener {
     }
 
     public void dialog(final Context context, final String action, final Bundle params,
-                       final DialogListener listener) {
+                       final AuthListener listener) {
 
         final String endpoint = DIALOG_BASE_URL + action;
         params.putString("display", "touch");

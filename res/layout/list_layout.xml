@@ -38,6 +38,7 @@
                 android:layout_width="85dip"
                 android:layout_height="85dip"
                 android:clickable="true"
+                android:onClick="onClick"
                 android:scaleType="fitXY"
                 android:src="@drawable/google_icon">
         </ImageView>

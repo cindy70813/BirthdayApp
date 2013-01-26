@@ -1,7 +1,7 @@
 package com.chuger.bithdayapp.controller.chain.chain;
 
 import com.chuger.bithdayapp.controller.chain.auth.request.AuthRequest;
-import com.chuger.bithdayapp.controller.chain.auth.responseListener.DialogListener;
+import com.chuger.bithdayapp.controller.chain.auth.responseListener.AuthListener;
 import com.chuger.bithdayapp.controller.chain.birthday.request.BirthdayCaller;
 import com.chuger.bithdayapp.controller.chain.birthday.responseListener.BirthdayResponse;
 
@@ -15,7 +15,7 @@ public interface Chain {
 
     AuthRequest getAuthRequest();
 
-    DialogListener getAuthListener();
+    AuthListener getAuthListener();
 
     BirthdayCaller getBirthdayCaller();
 

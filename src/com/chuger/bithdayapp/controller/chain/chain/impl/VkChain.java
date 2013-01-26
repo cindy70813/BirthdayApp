@@ -2,7 +2,7 @@ package com.chuger.bithdayapp.controller.chain.chain.impl;
 
 import com.chuger.bithdayapp.controller.chain.auth.request.AuthRequest;
 import com.chuger.bithdayapp.controller.chain.auth.request.impl.VkAuthRequest;
-import com.chuger.bithdayapp.controller.chain.auth.responseListener.DialogListener;
+import com.chuger.bithdayapp.controller.chain.auth.responseListener.AuthListener;
 import com.chuger.bithdayapp.controller.chain.auth.responseListener.impl.VkAuthListener;
 import com.chuger.bithdayapp.controller.chain.birthday.request.BirthdayCaller;
 import com.chuger.bithdayapp.controller.chain.birthday.request.impl.VkBirthdayCaller;
@@ -18,7 +18,7 @@ import com.chuger.bithdayapp.controller.chain.chain.AbstractChain;
 public class VkChain extends AbstractChain {
 
     private final AuthRequest authRequest = new VkAuthRequest(this);
-    private final DialogListener authListener = new VkAuthListener(this);
+    private final AuthListener authListener = new VkAuthListener(this);
     private final BirthdayCaller birthdayCaller = new VkBirthdayCaller(this);
     private final BirthdayResponse birthdayResponse = new VkBirthdayResponse(this);
     private static final String APP_ID = "2815097";
@@ -29,7 +29,7 @@ public class VkChain extends AbstractChain {
         return authRequest;
     }
 
-    public DialogListener getAuthListener() {
+    public AuthListener getAuthListener() {
         return authListener;
     }
 

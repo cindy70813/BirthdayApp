@@ -109,6 +109,9 @@ public class UserListActivity extends ListActivity {
             case R.id.vkBtn:
                 chainAlias = ChainLocator.VK_CHAIN_ALIAS;
                 break;
+            case R.id.gBtn:
+                chainAlias = ChainLocator.GOOGLE_CHAIN_ALIAS;
+                break;
             default:
                 chainAlias = null;
                 Log.d(TAG, String.format("OnClick action for view with id[%d] not found", viewId));
@@ -136,6 +139,9 @@ public class UserListActivity extends ListActivity {
                 break;
             case R.id.vkMenuItem:
                 chainAlias = ChainLocator.VK_CHAIN_ALIAS;
+                break;
+            case R.id.gMenuItem:
+                chainAlias = ChainLocator.GOOGLE_CHAIN_ALIAS;
                 break;
             case R.id.clMenuItem:
                 try {

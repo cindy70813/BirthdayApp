@@ -33,9 +33,15 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import com.chuger.bithdayapp.controller.chain.auth.responseListener.DialogListener;
-import com.facebook.android.*;
+import com.chuger.bithdayapp.controller.chain.auth.responseListener.AuthListener;
+import com.facebook.android.Facebook;
+import com.facebook.android.FacebookError;
+import com.facebook.android.R;
+import com.facebook.android.Util;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -46,13 +52,13 @@ public class AuthDialog extends Dialog {
     static final String DISPLAY_STRING = "touch";
 
     private String mUrl;
-    private DialogListener mListener;
+    private AuthListener mListener;
     private ProgressDialog mSpinner;
     private ImageView mCrossImage;
     private WebView mWebView;
     private FrameLayout mContent;
 
-    public AuthDialog(final Context context, final String url, final DialogListener listener) {
+    public AuthDialog(final Context context, final String url, final AuthListener listener) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         mUrl = url;
         mListener = listener;
@@ -139,35 +145,58 @@ public class AuthDialog extends Dialog {
             return bundle;
         }
 
+        public static final String REDIRECT_URI = "http://localhost";
+        public static final String AUTH_URL = "https://accounts.google.com/o/oauth2/token?" +
+                "code=%s" +
+                "&client_id=%s" +
+                "&client_secret=%s" +
+                "&redirect_uri=%s" +
+                "&grant_type=authorization_code";
+        private static final String CLIENT_SECRET = "VUyfdv1wR91_QDY27jaqSeUX";
+        private final String CODE_ALIAS = "code";
+
         @Override
         public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-            Log.d("Facebook-WebView", "Redirect URL: " + url);
-            if (url.startsWith(Facebook.REDIRECT_URI)) {
-                final Bundle values = Util.parseUrl(url);
+            try {
+                Log.d("Facebook-WebView", "Redirect URL: " + url);
+                if (url.startsWith(Facebook.REDIRECT_URI)) {
+                    final Bundle values = Util.parseUrl(url);
 
-                String error = values.getString("error");
-                if (error == null) {
-                    error = values.getString("error_type");
-                }
+                    String error = values.getString("error");
+                    if (error == null) {
+                        error = values.getString("error_type");
+                    }
 
-                if (error == null) {
-                    mListener.onComplete(values);
-                } else if (error.equals("access_denied") || error.equals("OAuthAccessDeniedException")) {
+                    if (error == null) {
+                        mListener.onComplete(values);
+                    } else if (error.equals("access_denied") || error.equals("OAuthAccessDeniedException")) {
+                        mListener.onCancel();
+                    } else {
+                        mListener.onError(new FacebookError(error));
+                    }
+
+                    AuthDialog.this.dismiss();
+                    return true;
+                } else if (url.startsWith(Facebook.CANCEL_URI)) {
                     mListener.onCancel();
+                    AuthDialog.this.dismiss();
+                    return true;
+                } else if (url.contains(DISPLAY_STRING)) {
+                    return false;
+                } else if (url.contains(REDIRECT_URI)) {
+                    final URL newUrl = new URL(url);
+                    final String query = newUrl.getQuery();
+                    final Bundle bundle = getQueryMap(query);
+                    if (bundle.containsKey(CODE_ALIAS)) {
+                        final String code = bundle.getString(CODE_ALIAS);
+                        Log.d(CODE_ALIAS, code);
+                        final String authUrl =
+                                String.format(AUTH_URL, code, mListener.getChain().getAppId(), CLIENT_SECRET,
+                                        REDIRECT_URI);
+                        mWebView.loadUrl(authUrl);
+                        return true;
+                    }
                 } else {
-                    mListener.onError(new FacebookError(error));
-                }
-
-                AuthDialog.this.dismiss();
-                return true;
-            } else if (url.startsWith(Facebook.CANCEL_URI)) {
-                mListener.onCancel();
-                AuthDialog.this.dismiss();
-                return true;
-            } else if (url.contains(DISPLAY_STRING)) {
-                return false;
-            } else {
-                try {
                     final String urlString = url.replace('#', '?');
                     final URL newUrl = new URL(urlString);
                     if (VK_OAUTH_HOST.equals(newUrl.getHost()) && VK_OAUTH_PATH.equals(newUrl.getPath())) {
@@ -183,20 +212,57 @@ public class AuthDialog extends Dialog {
                             return true;
                         }
                     }
-                } catch (MalformedURLException e) {
-                    mListener.onError(new FacebookError(e.getMessage()));
+
                 }
+            } catch (MalformedURLException e) {
+                mListener.onError(new FacebookError(e.getMessage()));
             }
             // launch non-dialog URLs in a full browser
             //            getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             return false;
         }
 
-        @Override
         public void onPageStarted(final WebView view, final String url, final Bitmap favicon) {
             Log.d("Facebook-WebView", "Webview loading URL: " + url);
-            super.onPageStarted(view, url, favicon);
+            if (url.contains(REDIRECT_URI + "/?" + CODE_ALIAS + "=")) {
+                try {
+                    final URL newUrl = new URL(url);
+                    final String query = newUrl.getQuery();
+                    final Bundle bundle = getQueryMap(query);
+                    if (bundle.containsKey(CODE_ALIAS)) {
+                        final String code = bundle.getString(CODE_ALIAS);
+                        Log.d(CODE_ALIAS, code);
+                        final String authUrl =
+                                String.format(AUTH_URL, code, mListener.getChain().getAppId(), CLIENT_SECRET,
+                                        REDIRECT_URI);
+//                        mWebView.loadUrl(authUrl);
+                        final String response = openUrl(authUrl, "POST");
+                        Log.d("response", response);
+                    }
+                } catch (MalformedURLException ignored) {
+                } catch (IOException ignored) {
+                }
+            } else {
+                super.onPageStarted(view, url, favicon);
+            }
             mSpinner.show();
+        }
+
+        public  String openUrl(String url, final String method) throws IOException {
+
+            final HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            conn.setRequestProperty("Host", "accounts.google.com");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("Content-Length", "1000");
+            conn.setRequestMethod(method);
+
+            String response;
+            try {
+                response = Util.read(conn.getInputStream());
+            } catch (FileNotFoundException e) {
+                response = Util.read(conn.getErrorStream());
+            }
+            return response;
         }
 
         @Override
