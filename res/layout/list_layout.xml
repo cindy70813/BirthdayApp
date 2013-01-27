@@ -4,9 +4,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <ListView android:id="@android:id/list"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
+    <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     <LinearLayout
             android:id="@android:id/empty"
@@ -14,6 +15,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center">
+
         <ImageView
                 android:id="@+id/fbBtn"
                 android:layout_width="70dip"
@@ -22,8 +24,9 @@
                 android:onClick="onClick"
                 android:layout_marginRight="8dip"
                 android:scaleType="fitXY"
-                android:src="@drawable/fb_icon">
-        </ImageView>
+                android:src="@drawable/fb_icon"
+                android:contentDescription="@string/fbIcon"/>
+
         <ImageView
                 android:id="@+id/vkBtn"
                 android:layout_width="70dip"
@@ -31,8 +34,9 @@
                 android:clickable="true"
                 android:onClick="onClick"
                 android:scaleType="fitXY"
-                android:src="@drawable/vk_icon">
-        </ImageView>
+                android:src="@drawable/vk_icon"
+                android:contentDescription="@string/vkIcon"/>
+
         <ImageView
                 android:id="@+id/gBtn"
                 android:layout_width="85dip"
@@ -40,21 +44,30 @@
                 android:clickable="true"
                 android:onClick="onClick"
                 android:scaleType="fitXY"
-                android:src="@drawable/google_icon">
-        </ImageView>
+                android:src="@drawable/google_icon"
+                android:contentDescription="@string/gIcon"/>
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
-                  android:layout_height="wrap_content" android:orientation="horizontal"
-                  android:layout_alignParentBottom="true" style="@android:style/ButtonBar">
+    <LinearLayout
+            android:id="@+id/footer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@android:style/ButtonBar">
 
-        <Button android:id="@+id/saveButton" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_weight="1"
-                android:text="menu_done"/>
+        <Button
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/menu_alias"/>
 
-        <Button android:id="@+id/cancelButton" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_weight="1"
-                android:text="menu_cancel"/>
+        <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/menu_cancel"/>
     </LinearLayout>
 
 </LinearLayout>

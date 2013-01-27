@@ -33,10 +33,10 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import com.chuger.R;
 import com.chuger.bithdayapp.controller.chain.auth.responseListener.AuthListener;
 import com.facebook.android.Facebook;
 import com.facebook.android.FacebookError;
-import com.facebook.android.R;
 import com.facebook.android.Util;
 
 import java.io.FileNotFoundException;
@@ -235,7 +235,7 @@ public class AuthDialog extends Dialog {
                         final String authUrl =
                                 String.format(AUTH_URL, code, mListener.getChain().getAppId(), CLIENT_SECRET,
                                         REDIRECT_URI);
-//                        mWebView.loadUrl(authUrl);
+                        //                        mWebView.loadUrl(authUrl);
                         final String response = openUrl(authUrl, "POST");
                         Log.d("response", response);
                     }
@@ -248,7 +248,7 @@ public class AuthDialog extends Dialog {
             mSpinner.show();
         }
 
-        public  String openUrl(String url, final String method) throws IOException {
+        public String openUrl(String url, final String method) throws IOException {
 
             final HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
             conn.setRequestProperty("Host", "accounts.google.com");

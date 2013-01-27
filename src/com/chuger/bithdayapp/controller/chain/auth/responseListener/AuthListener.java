@@ -2,8 +2,6 @@ package com.chuger.bithdayapp.controller.chain.auth.responseListener;
 
 import android.os.Bundle;
 import com.chuger.bithdayapp.controller.chain.GetChain;
-import com.facebook.android.DialogError;
-import com.facebook.android.FacebookError;
 
 /**
  * Created with IntelliJ IDEA.

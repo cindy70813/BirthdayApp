@@ -17,7 +17,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, final Intent intent) {
 
         final NotificationManager manger = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        final Notification notification = new Notification(R.drawable.icon, "Combi Note", System.currentTimeMillis());
+        final Notification notification = new Notification(R.drawable.fb_icon, "Combi Note", System.currentTimeMillis());
         final PendingIntent contentIntent =
                 PendingIntent.getActivity(context, NOTIFICATION_ID, new Intent(context, AlarmReceiver.class), 0);
         final Bundle extras = intent.getExtras();

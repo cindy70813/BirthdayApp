@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/fbMenuItem" android:title="FB"/>
-    <item android:id="@+id/vkMenuItem" android:title="VK"/>
-    <item android:id="@+id/gMenuItem" android:title="G"/>
-    <item android:id="@+id/clMenuItem" android:title="clear"/>
+    <item
+            android:id="@+id/fbMenuItem"
+            android:title="FB"/>
+    <item
+            android:id="@+id/vkMenuItem"
+            android:title="VK"/>
+    <item
+            android:id="@+id/gMenuItem"
+            android:title="G"/>
+    <item
+            android:id="@+id/clMenuItem"
+            android:title="clear"/>
 </menu>

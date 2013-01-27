@@ -15,4 +15,10 @@
     <string name="default_days">74</string>
     <string name="default_surname">Surname Name</string>
     <string name="dialog_ok">OK</string>
+    <string name="menu_alias">menu_done</string>
+    <string name="gIcon">gIcon</string>
+    <string name="vkIcon">vkIcon</string>
+    <string name="fbIcon">fbIcon</string>
+    <string name="menu_cancel">menu_cancel</string>
+    <string name="image_stub">image_stub</string>
 </resources>

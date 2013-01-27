@@ -6,7 +6,9 @@
         android:layout_width="match_parent"
         android:stretchColumns="2"
         android:layout_height="match_parent">
+
     <TableRow>
+
         <TextView
                 android:id="@+id/userInfo"
                 android:layout_width="match_parent"
@@ -15,7 +17,9 @@
                 android:gravity="left|top"
                 android:textSize="20dip"/>
     </TableRow>
+
     <TableRow>
+
         <TextView
                 android:id="@+id/dayCount"
                 android:layout_width="match_parent"
@@ -24,7 +28,9 @@
                 android:text="@string/default_days"
                 android:textSize="12dip"/>
     </TableRow>
+
     <TableRow>
+
         <TextView
                 android:id="@+id/birthday"
                 android:layout_width="match_parent"
@@ -33,7 +39,9 @@
                 android:gravity="left|bottom"
                 android:textSize="14dip"/>
     </TableRow>
+
     <TableRow>
+
         <TextView
                 android:id="@+id/yearCount"
                 android:layout_width="match_parent"
@@ -42,8 +50,11 @@
                 android:text="@string/default_year"
                 android:textSize="12dip"/>
     </TableRow>
+
     <TableRow>
-        <Button android:id="@+id/dialogBtn"
+
+        <Button
+                android:id="@+id/dialogBtn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/dialog_ok"
