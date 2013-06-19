@@ -5,7 +5,9 @@ import com.chuger.bithdayapp.controller.chain.auth.request.impl.GoogleAuthReques
 import com.chuger.bithdayapp.controller.chain.auth.responseListener.AuthListener;
 import com.chuger.bithdayapp.controller.chain.auth.responseListener.impl.GoogleAuthListener;
 import com.chuger.bithdayapp.controller.chain.birthday.request.BirthdayCaller;
+import com.chuger.bithdayapp.controller.chain.birthday.request.impl.GoogleBirthdayCaller;
 import com.chuger.bithdayapp.controller.chain.birthday.responseListener.BirthdayResponse;
+import com.chuger.bithdayapp.controller.chain.birthday.responseListener.impl.GoogleBirthdayResponse;
 import com.chuger.bithdayapp.controller.chain.chain.AbstractChain;
 
 /**
@@ -22,12 +24,12 @@ public class GoogleChain extends AbstractChain {
 
     private final AuthRequest authRequest = new GoogleAuthRequest(this);
     private final AuthListener authListener = new GoogleAuthListener(this);
-    //    private final BirthdayCaller birthdayCaller = new VkBirthdayCaller(this);
-    //    private final BirthdayResponse birthdayResponse = new VkBirthdayResponse(this);
+    private final BirthdayCaller birthdayCaller = new GoogleBirthdayCaller(this);
+    private final BirthdayResponse birthdayResponse = new GoogleBirthdayResponse(this);
 
     @Override
     public BirthdayResponse getBirthdayResponse() {
-        return null;
+        return birthdayResponse;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class GoogleChain extends AbstractChain {
 
     @Override
     public BirthdayCaller getBirthdayCaller() {
-        return null;
+        return birthdayCaller;
     }
 
     @Override
@@ -57,6 +59,6 @@ public class GoogleChain extends AbstractChain {
 
     @Override
     public String getAccessTokenAlias() {
-        return null;
+        return TOKEN;
     }
 }

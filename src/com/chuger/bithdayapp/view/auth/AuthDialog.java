@@ -38,12 +38,27 @@ import com.chuger.bithdayapp.controller.chain.auth.responseListener.AuthListener
 import com.facebook.android.Facebook;
 import com.facebook.android.FacebookError;
 import com.facebook.android.Util;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class AuthDialog extends Dialog {
 
@@ -145,16 +160,6 @@ public class AuthDialog extends Dialog {
             return bundle;
         }
 
-        public static final String REDIRECT_URI = "http://localhost";
-        public static final String AUTH_URL = "https://accounts.google.com/o/oauth2/token?" +
-                "code=%s" +
-                "&client_id=%s" +
-                "&client_secret=%s" +
-                "&redirect_uri=%s" +
-                "&grant_type=authorization_code";
-        private static final String CLIENT_SECRET = "VUyfdv1wR91_QDY27jaqSeUX";
-        private final String CODE_ALIAS = "code";
-
         @Override
         public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
             try {
@@ -193,7 +198,12 @@ public class AuthDialog extends Dialog {
                         final String authUrl =
                                 String.format(AUTH_URL, code, mListener.getChain().getAppId(), CLIENT_SECRET,
                                         REDIRECT_URI);
-                        mWebView.loadUrl(authUrl);
+                        //                        mWebView.loadUrl(authUrl);
+                        final String accessToken = getAccessToken(code, mListener.getChain().getAppId());
+                        final Bundle googleBundle = new Bundle();
+                        googleBundle.putString("access_token", accessToken);
+                        mListener.onComplete(googleBundle);
+                        AuthDialog.this.dismiss();
                         return true;
                     }
                 } else {
@@ -216,6 +226,8 @@ public class AuthDialog extends Dialog {
                 }
             } catch (MalformedURLException e) {
                 mListener.onError(new FacebookError(e.getMessage()));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             // launch non-dialog URLs in a full browser
             //            getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
@@ -246,6 +258,57 @@ public class AuthDialog extends Dialog {
                 super.onPageStarted(view, url, favicon);
             }
             mSpinner.show();
+        }
+
+        public static final String REDIRECT_URI = "http://localhost";
+        public static final String AUTH_URL = "https://accounts.google.com/o/oauth2/token?" +
+                "code=%s" +
+                "&client_id=%s" +
+                "&client_secret=%s" +
+                "&redirect_uri=%s" +
+                "&grant_type=authorization_code";
+        private static final String CLIENT_SECRET = "VUyfdv1wR91_QDY27jaqSeUX";
+        private final String CODE_ALIAS = "code";
+
+        public String getAccessToken(String code, String clietId) {
+            try {
+                final String httpsURL = "https://accounts.google.com/o/oauth2/token";
+                final DefaultHttpClient client = new DefaultHttpClient();
+                final HttpPost httpPost = new HttpPost(httpsURL);
+
+                //authentication block:
+                final List<BasicNameValuePair> nvps = new ArrayList<BasicNameValuePair>();
+                nvps.add(new BasicNameValuePair("code", code));
+                nvps.add(new BasicNameValuePair("client_id", clietId));
+                nvps.add(new BasicNameValuePair("client_secret", CLIENT_SECRET));
+                nvps.add(new BasicNameValuePair("redirect_uri", REDIRECT_URI));
+                nvps.add(new BasicNameValuePair("grant_type", "authorization_code"));
+                final UrlEncodedFormEntity content = new UrlEncodedFormEntity(nvps, HTTP.UTF_8);
+                httpPost.setEntity(content);
+
+                //sending the request and retrieving the response:
+                HttpResponse response = client.execute(httpPost);
+                HttpEntity responseEntity = response.getEntity();
+
+                //handling the response: responseEntity.getContent() is your InputStream
+                final InputStream stream = responseEntity.getContent();
+                Scanner scanner = new Scanner(stream).useDelimiter("\\A");
+                final String jsonString = scanner.hasNext() ? scanner.next() : "";
+                final JSONObject jsonObject = new JSONObject(jsonString);
+                final String token = jsonObject.getString("access_token");
+                System.out.println(jsonString);
+                System.out.println(token);
+                return token;
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
 
         public String openUrl(String url, final String method) throws IOException {
