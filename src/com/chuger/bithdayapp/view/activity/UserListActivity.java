@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.chuger.R;
 import com.chuger.bithdayapp.controller.chain.locator.ChainLocator;
 import com.chuger.bithdayapp.model.dataSource.UserDataSource;
@@ -25,6 +26,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import static com.chuger.bithdayapp.controller.chain.locator.ChainLocator.getChain;
+import static com.chuger.bithdayapp.model.utils.NetworkUtils.isOnline;
 import static java.lang.String.valueOf;
 
 /**
@@ -100,24 +102,28 @@ public class UserListActivity extends ListActivity {
     }
 
     public void onClick(final View view) {
-        final int viewId = view.getId();
-        final String chainAlias;
-        switch (viewId) {
-            case R.id.fbBtn:
-                chainAlias = ChainLocator.FB_CHAIN_ALIAS;
-                break;
-            case R.id.vkBtn:
-                chainAlias = ChainLocator.VK_CHAIN_ALIAS;
-                break;
-            case R.id.gBtn:
-                chainAlias = ChainLocator.GOOGLE_CHAIN_ALIAS;
-                break;
-            default:
-                chainAlias = null;
-                Log.d(TAG, String.format("OnClick action for view with id[%d] not found", viewId));
-        }
-        if (StringUtils.isNotEmpty(chainAlias)) {
-            getChain(chainAlias).getAuthRequest().onClick(view);
+        if (!isOnline(this)) {
+            Toast.makeText(getApplicationContext(), "Check connection to internet", Toast.LENGTH_LONG).show();
+        } else {
+            final int viewId = view.getId();
+            final String chainAlias;
+            switch (viewId) {
+                case R.id.fbBtn:
+                    chainAlias = ChainLocator.FB_CHAIN_ALIAS;
+                    break;
+                case R.id.vkBtn:
+                    chainAlias = ChainLocator.VK_CHAIN_ALIAS;
+                    break;
+                case R.id.gBtn:
+                    chainAlias = ChainLocator.GOOGLE_CHAIN_ALIAS;
+                    break;
+                default:
+                    chainAlias = null;
+                    Log.d(TAG, String.format("OnClick action for view with id[%d] not found", viewId));
+            }
+            if (StringUtils.isNotEmpty(chainAlias)) {
+                getChain(chainAlias).getAuthRequest().onClick(view);
+            }
         }
     }
 
