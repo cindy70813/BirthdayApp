@@ -12,9 +12,11 @@ import java.util.Date;
  */
 public class User implements Serializable {
 
+    private static final long serialVersionUID = 2664210841457349984L;
     private Long id;
     private Long facebookId;
     private Long vkontakteId;
+    private String googleId;
     private String firstName;
     private String lastName;
     private String picUrl;
@@ -119,5 +121,13 @@ public class User implements Serializable {
 
     public void setDayCount(final Integer dayCount) {
         this.dayCount = dayCount;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 }

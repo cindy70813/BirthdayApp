@@ -15,7 +15,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.chuger.bithdayapp.model.db.UserOpenHelper.*;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.ALL_COLUMNS;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_BIRTHDAY_DATE;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_DAY_COUNT;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_FB_ID;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_FIRST_NAME;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_GOOGLE_ID;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_ID;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_LAST_NAME;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_PIC_URL;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_UPDATED;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_VK_ID;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_YEAR_COUNT;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_YEAR_UNKNOWN;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.TABLE_USER;
 import static com.chuger.bithdayapp.model.utils.StringUtils.isNotEmpty;
 import static java.lang.Boolean.TRUE;
 
@@ -97,6 +110,10 @@ public class UserDataSource {
         if (vkontakteId != null) {
             values.put(COLUMN_VK_ID, vkontakteId);
         }
+        final String googleId = user.getGoogleId();
+        if (isNotEmpty(googleId)) {
+            values.put(COLUMN_GOOGLE_ID, googleId);
+        }
         final String lastName = user.getLastName();
         if (isNotEmpty(lastName)) {
             values.put(COLUMN_LAST_NAME, lastName);
@@ -157,6 +174,11 @@ public class UserDataSource {
 
     public User findByVkUid(final Long uid) {
         final Cursor cursor = database.query(TABLE_USER, ALL_COLUMNS, COLUMN_VK_ID + "=" + uid, null, null, null, null);
+        return findUser(cursor);
+    }
+
+    public User findByGoogleId(final String id) {
+        final Cursor cursor = database.query(TABLE_USER, ALL_COLUMNS, COLUMN_GOOGLE_ID + "='" + id +"'", null, null, null, null);
         return findUser(cursor);
     }
 

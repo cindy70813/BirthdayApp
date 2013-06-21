@@ -17,6 +17,7 @@ public class GoogleBirthdayCaller extends AbstractBirthdayCaller {
     @Override
     public String getRequestUrl() {
         return "https://www.google.com/m8/feeds/contacts/default/full";
+//        return "https://www.google.com/m8/feeds/contacts/default/thin";
     }
 
     @Override
@@ -24,6 +25,9 @@ public class GoogleBirthdayCaller extends AbstractBirthdayCaller {
         Bundle params = new Bundle();
         params.putString("access_token", getChain().getAccessToken());
         params.putString("alt", "json");
+        params.putString("start-index", "1");
+        params.putString("max-results", "300");
+        params.putString("v", "3.0");
         return params;
     }
 }

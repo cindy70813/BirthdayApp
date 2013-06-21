@@ -16,14 +16,20 @@ import static org.joda.time.format.DateTimeFormat.forPattern;
  */
 public final class DateTimeUtils {
 
+    private DateTimeUtils() {
+    }
+
     private static final String TAG = DateTimeUtils.class.getSimpleName();
     public static final DateTimeFormatter LONG_DATE_FORMAT = forPattern("dd.MM.yyyy");
     public static final DateTimeFormatter SHORT_DATE_FORMAT = forPattern("dd.MM");
+
     public static final DateTimeFormatter FB_DATE_FORMAT = forPattern("MM/dd/yyyy");
     public static final DateTimeFormatter FB_DATE_FORMAT_SHORT = forPattern("MM/dd");
 
     public static final DateTimeFormatter VK_DATE_FORMAT = forPattern("d.M.yyyy");
     public static final DateTimeFormatter VK_DATE_FORMAT_SHORT = forPattern("d.M");
+
+    public static final DateTimeFormatter GOOGLE_DATE_FORMAT = forPattern("yyyy-MM-dd");
 
     public static String format(final Date date) {
         if (date != null) {
@@ -68,5 +74,14 @@ public final class DateTimeUtils {
             date = null;
         }
         return date;
+    }
+
+    public static DateTime parseGoogleDate(String dateString) {
+        if (isEmpty(dateString)) {
+            Log.w(TAG, "Cannot parse empty Google dateString to date");
+            return null;
+        }
+
+        return GOOGLE_DATE_FORMAT.parseDateTime(dateString);
     }
 }

@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 
 import static com.chuger.bithdayapp.model.dataSource.UserDataSource.getInstance;
@@ -39,42 +40,8 @@ public abstract class AbstractBdayResponse implements BirthdayResponse {
             writeDataSource.openWrite();
             readDataSource.openRead();
             final JSONObject jsonObject = new JSONObject(response);
-            final AliasHolder aliasHolder = getAliasHolder();
-            final JSONArray jsonUsers = jsonObject.getJSONArray(aliasHolder.getJsonRootAlias());
+            parseJSONObject(jsonObject, writeDataSource, readDataSource);
 
-            for (int i = 0, l = jsonUsers.length(); i < l; i++) {
-                final JSONObject user = (JSONObject) jsonUsers.get(i);
-                if (user.has(aliasHolder.getBirthdayAlias())) {
-                    final String birthdayDate = user.getString(aliasHolder.getBirthdayAlias());
-                    if (isNotEmpty(birthdayDate) && !"null".equals(birthdayDate)) {
-                        final Long uid = Long.valueOf(user.getString(aliasHolder.getIdAlias()));
-                        final User existedUser = findUserById(readDataSource, uid);
-                        final User mergedUser;
-                        final boolean isExist = existedUser != null;
-                        if (isExist) {
-                            mergedUser = existedUser;
-                            Log.d(TAG, "User with uid= " + uid + " already exist");
-                        } else {
-                            mergedUser = new User();
-                            setUid(mergedUser, uid);
-                            Log.d(TAG, "User with uid = " + uid + " created");
-                        }
-
-                        mergedUser.setFirstName(user.getString(aliasHolder.getFirstNameAlias()));
-                        mergedUser.setLastName(user.getString(aliasHolder.getLastNameAlias()));
-                        mergedUser.setPicUrl(user.getString(aliasHolder.getPicUrlAlias()).replaceAll("\\/", "/"));
-                        BirthdayUtils.setBirthday(mergedUser, getAbstractBdayParser(birthdayDate));
-                        if (isExist) {
-                            writeDataSource.updateUser(mergedUser);
-                        } else {
-                            writeDataSource.createUser(mergedUser);
-                        }
-                        if (i % 10 == 0) {
-                            UserDataSource.refreshListActivity();
-                        }
-                    }
-                }
-            }
             writeDataSource.close();
             readDataSource.close();
 
@@ -89,11 +56,51 @@ public abstract class AbstractBdayResponse implements BirthdayResponse {
         }
     }
 
+    public void parseJSONObject(JSONObject jsonObject, UserDataSource writeDataSource, UserDataSource readDataSource) throws JSONException {
+        final AliasHolder aliasHolder = getAliasHolder();
+        final JSONArray jsonUsers = jsonObject.getJSONArray(getAliasHolder().getJsonRootAlias());
+        Log.e(TAG, jsonUsers.toString());
+
+        for (int i = 0, l = jsonUsers.length(); i < l; i++) {
+            final JSONObject user = (JSONObject) jsonUsers.get(i);
+            if (user.has(aliasHolder.getBirthdayAlias())) {
+                final String birthdayDate = user.getString(aliasHolder.getBirthdayAlias());
+                if (isNotEmpty(birthdayDate) && !"null".equals(birthdayDate)) {
+                    final Long uid = Long.valueOf(user.getString(aliasHolder.getIdAlias()));
+                    final User existedUser = findUserById(readDataSource, uid);
+                    final User mergedUser;
+                    final boolean isExist = existedUser != null;
+                    if (isExist) {
+                        mergedUser = existedUser;
+                        Log.d(TAG, "User with uid= " + uid + " already exist");
+                    } else {
+                        mergedUser = new User();
+                        setUid(mergedUser, uid);
+                        Log.d(TAG, "User with uid = " + uid + " created");
+                    }
+
+                    mergedUser.setFirstName(user.getString(aliasHolder.getFirstNameAlias()));
+                    mergedUser.setLastName(user.getString(aliasHolder.getLastNameAlias()));
+                    mergedUser.setPicUrl(user.getString(aliasHolder.getPicUrlAlias()).replaceAll("\\/", "/"));
+                    BirthdayUtils.setBirthday(mergedUser, getAbstractBdayParser(birthdayDate));
+                    if (isExist) {
+                        writeDataSource.updateUser(mergedUser);
+                    } else {
+                        writeDataSource.createUser(mergedUser);
+                    }
+                    if (i % 10 == 0) {
+                        UserDataSource.refreshListActivity();
+                    }
+                }
+            }
+        }
+    }
+
     protected abstract AbstractBirthdayParser getAbstractBdayParser(final String bdayString);
 
-    protected abstract void setUid(User user, Long uid);
+    protected abstract <T extends Serializable> void setUid(User user, T uid);
 
-    protected abstract User findUserById(UserDataSource readDataSource, Long uid);
+    protected abstract <T extends Serializable> User findUserById(UserDataSource readDataSource, T uid);
 
     @Override
     public Chain getChain() {

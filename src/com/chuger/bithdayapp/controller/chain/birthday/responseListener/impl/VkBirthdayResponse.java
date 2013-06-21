@@ -9,6 +9,8 @@ import com.chuger.bithdayapp.controller.chain.chain.Chain;
 import com.chuger.bithdayapp.model.dataSource.UserDataSource;
 import com.chuger.bithdayapp.model.domain.User;
 
+import java.io.Serializable;
+
 /**
  * User: Acer5740
  * Date: 24.02.12
@@ -31,12 +33,12 @@ public class VkBirthdayResponse extends AbstractBdayResponse {
     }
 
     @Override
-    protected void setUid(User user, Long uid) {
-        user.setVkontakteId(uid);
+    protected <T extends Serializable> void setUid(User user, T uid) {
+        user.setVkontakteId((Long) uid);
     }
 
     @Override
-    protected User findUserById(UserDataSource readDataSource, Long uid) {
-        return readDataSource.findByVkUid(uid);
+    protected <T extends Serializable> User findUserById(UserDataSource readDataSource, T uid){
+        return readDataSource.findByVkUid((Long)uid);
     }
 }

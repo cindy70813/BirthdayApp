@@ -17,12 +17,13 @@ public class UserOpenHelper extends SQLiteOpenHelper {
     private final String TAG = UserOpenHelper.class.getSimpleName();
 
     public static final String DB_NAME = "birthday_db";
-    public static final int DB_VERSION = 14;
+    public static final int DB_VERSION = 15;
 
     public static final String TABLE_USER = "user";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_FB_ID = "fb_id";
     public static final String COLUMN_VK_ID = "vk_id";
+    public static final String COLUMN_GOOGLE_ID = "google_id";
     public static final String COLUMN_LAST_NAME = "last_name";
     public static final String COLUMN_FIRST_NAME = "first_name";
     public static final String COLUMN_PIC_URL = "pic_url";
@@ -33,12 +34,12 @@ public class UserOpenHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DAY_COUNT = "day_count";
 
     public static final String[] ALL_COLUMNS =
-            {COLUMN_ID, COLUMN_FB_ID, COLUMN_VK_ID, COLUMN_LAST_NAME, COLUMN_FIRST_NAME, COLUMN_PIC_URL, COLUMN_PIC_URL,
+            {COLUMN_ID, COLUMN_FB_ID, COLUMN_VK_ID, COLUMN_GOOGLE_ID, COLUMN_LAST_NAME, COLUMN_FIRST_NAME, COLUMN_PIC_URL, COLUMN_PIC_URL,
                     COLUMN_BIRTHDAY_DATE, COLUMN_YEAR_UNKNOWN, COLUMN_UPDATED, COLUMN_YEAR_COUNT, COLUMN_DAY_COUNT};
 
     private static final String CREATE_TABLE =
-            format("create table %s ( %s integer primary key autoincrement, %s INTEGER, %s INTEGER, %s TEXT, %s TEXT, %s TEXT, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER)",
-                    TABLE_USER, COLUMN_ID, COLUMN_FB_ID, COLUMN_VK_ID, COLUMN_LAST_NAME, COLUMN_FIRST_NAME,
+            format("create table %s ( %s integer primary key autoincrement, %s INTEGER, %s INTEGER, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER)",
+                    TABLE_USER, COLUMN_ID, COLUMN_FB_ID, COLUMN_VK_ID, COLUMN_GOOGLE_ID, COLUMN_LAST_NAME, COLUMN_FIRST_NAME,
                     COLUMN_PIC_URL, COLUMN_BIRTHDAY_DATE, COLUMN_YEAR_UNKNOWN, COLUMN_UPDATED, COLUMN_YEAR_COUNT,
                     COLUMN_DAY_COUNT);
 

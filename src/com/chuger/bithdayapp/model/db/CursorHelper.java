@@ -6,7 +6,18 @@ import com.chuger.bithdayapp.model.domain.User;
 
 import java.util.Date;
 
-import static com.chuger.bithdayapp.model.db.UserOpenHelper.*;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_BIRTHDAY_DATE;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_DAY_COUNT;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_FB_ID;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_FIRST_NAME;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_GOOGLE_ID;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_ID;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_LAST_NAME;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_PIC_URL;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_UPDATED;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_VK_ID;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_YEAR_COUNT;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_YEAR_UNKNOWN;
 import static com.chuger.bithdayapp.model.utils.StringUtils.isEmpty;
 
 /**
@@ -27,6 +38,7 @@ public class CursorHelper {
         user.setId(getLong(COLUMN_ID));
         user.setFacebookId(getLong(COLUMN_FB_ID));
         user.setVkontakteId(getLong(COLUMN_VK_ID));
+        user.setGoogleId(getString(COLUMN_GOOGLE_ID));
         user.setLastName(getString(COLUMN_LAST_NAME));
         user.setFirstName(getString(COLUMN_FIRST_NAME));
         user.setPicUrl(getString(COLUMN_PIC_URL));
