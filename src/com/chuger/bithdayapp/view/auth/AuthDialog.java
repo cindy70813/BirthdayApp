@@ -147,7 +147,7 @@ public class AuthDialog extends Dialog {
         private final String VK_OAUTH_HOST = "oauth.vk.com";
         private final String VK_OAUTH_PATH = "/blank.html";
         private final String VK_ACCESS_TOKEN_ALIAS = "access_token";
-        private final String CLASS_NAME = this.getClass().getSimpleName();
+        private final String TAG = this.getClass().getSimpleName();
 
         public Bundle getQueryMap(String query) {
             final String[] params = query.split("&");
@@ -297,17 +297,17 @@ public class AuthDialog extends Dialog {
                 final String jsonString = scanner.hasNext() ? scanner.next() : "";
                 final JSONObject jsonObject = new JSONObject(jsonString);
                 final String token = jsonObject.getString("access_token");
-                Log.e(CLASS_NAME, "json: " + jsonString);
-                Log.e(CLASS_NAME, "token: " + token);
+                Log.e(TAG, "json: " + jsonString);
+                Log.e(TAG, "token: " + token);
                 return token;
             } catch (UnsupportedEncodingException e) {
-                Log.e(CLASS_NAME, e.getMessage(), e);
+                Log.e(TAG, e.getMessage(), e);
             } catch (ClientProtocolException e) {
-                Log.e(CLASS_NAME, e.getMessage(), e);
+                Log.e(TAG, e.getMessage(), e);
             } catch (IOException e) {
-                Log.e(CLASS_NAME, e.getMessage(), e);
+                Log.e(TAG, e.getMessage(), e);
             } catch (JSONException e) {
-                Log.e(CLASS_NAME, e.getMessage(), e);
+                Log.e(TAG, e.getMessage(), e);
             }
             return null;
         }

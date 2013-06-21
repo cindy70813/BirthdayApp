@@ -20,6 +20,9 @@ import java.util.Date;
 public final class BirthdayUtils {
     private static final String TAG = BirthdayUtils.class.getSimpleName();
 
+    private BirthdayUtils() {
+    }
+
     public static User setBirthday(User user, AbstractBirthdayParser bdayParser) {
         if (bdayParser.notNull()) {
             final boolean isUnknownYear = bdayParser.isUnknownYear();
