@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
+              android:layout_width="wrap_content"
               android:orientation="horizontal"
               android:layout_height="50dip">
 
@@ -13,47 +13,61 @@
             android:contentDescription="@string/image_stub"/>
 
     <TableLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:stretchColumns="1"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dip">
+            android:layout_height="fill_parent"
+            android:layout_marginRight="5dip"
+            >
 
-        <TableRow>
+        <TableRow android:layout_width="wrap_content"
+                  android:layout_height="fill_parent">
 
-            <TextView
+            <com.chuger.bithdayapp.view.components.AutoResizeTextView
                     android:id="@+id/userInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
                     android:text="@string/default_surname"
                     android:gravity="left|top"
-                    android:textSize="20dip"/>
+                    android:textSize="20dip"
+                    android:singleLine="true"
+                    android:ellipsize="none"
+                    android:layout_weight="80"/>
 
             <TextView
                     android:id="@+id/dayCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
                     android:gravity="right|top"
                     android:text="@string/default_days"
-                    android:textSize="12dip"/>
+                    android:textSize="12dip"
+                    android:layout_weight="20"
+                    android:singleLine="true"/>
         </TableRow>
 
-        <TableRow>
+        <TableRow android:layout_width="wrap_content"
+                  android:layout_height="fill_parent"
+                  android:minHeight="25dip">
 
             <TextView
                     android:id="@+id/birthday"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
                     android:text="@string/default_birthday"
                     android:gravity="left|bottom"
-                    android:textSize="14dip"/>
+                    android:textSize="14dip"
+                    android:singleLine="true"
+                    android:layout_weight="70"
+                    />
 
             <TextView
                     android:id="@+id/yearCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
                     android:gravity="right|bottom"
                     android:text="@string/default_year"
-                    android:textSize="12dip"/>
+                    android:textSize="12dip"
+                    android:singleLine="true"
+                    style="30"/>
         </TableRow>
     </TableLayout>
 

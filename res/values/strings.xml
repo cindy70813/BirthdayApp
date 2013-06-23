@@ -13,7 +13,7 @@
     <string name="default_birthday">13.09.1990</string>
     <string name="default_year">22 year</string>
     <string name="default_days">74</string>
-    <string name="default_surname">Surname Name</string>
+    <string name="default_surname">Surname Name Middle Name</string>
     <string name="dialog_ok">OK</string>
     <string name="menu_alias">menu_done</string>
     <string name="gIcon">gIcon</string>
