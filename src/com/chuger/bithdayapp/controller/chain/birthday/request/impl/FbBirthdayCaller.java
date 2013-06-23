@@ -11,8 +11,8 @@ import com.chuger.bithdayapp.controller.chain.chain.Chain;
  */
 public class FbBirthdayCaller extends AbstractBirthdayCaller {
     private final static String FQL_BIRTHDAYS =
-            "select uid, first_name, last_name, pic_square, birthday_date from user where uid in " +
-                    "(select uid2 from friend where uid1=me())";
+            "select uid, first_name, last_name, middle_name, name, pic_square, birthday_date from user where uid in " +
+                        "(select uid2 from friend where uid1=me())";
     public static final String TOKEN = "access_token";
     protected static String GRAPH_BASE_URL = "https://graph.facebook.com/";
 

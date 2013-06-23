@@ -38,4 +38,14 @@ public final class FbAliasHolder implements AliasHolder{
     public String getBirthdayAlias() {
         return "birthday_date";
     }
+
+    @Override
+    public String getTitleAlias() {
+        return "name";
+    }
+
+    @Override
+    public String getAdditionalNameAlias() {
+        return "middle_name";
+    }
 }

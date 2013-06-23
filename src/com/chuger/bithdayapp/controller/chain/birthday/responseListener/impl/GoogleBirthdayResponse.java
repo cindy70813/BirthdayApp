@@ -31,10 +31,12 @@ public class GoogleBirthdayResponse extends AbstractBdayResponse {
     }
 
     @Override
-    public void parseJSONObject(JSONObject jsonObject, UserDataSource writeDataSource, UserDataSource readDataSource) throws JSONException {
+    public void parseJSONObject(JSONObject jsonObject, UserDataSource writeDataSource, UserDataSource readDataSource)
+            throws JSONException {
         final JSONArray jsonUsers = jsonObject.getJSONObject("feed").getJSONArray("entry");
         Log.e(TAG, jsonUsers.toString());
 
+        final String accessToken = getChain().getAccessToken();
         for (int i = 0, l = jsonUsers.length(); i < l; i++) {
             final JSONObject user = jsonUsers.getJSONObject(i);
 
@@ -43,52 +45,57 @@ public class GoogleBirthdayResponse extends AbstractBdayResponse {
                 final String birthdayDate = birthday.getString("when");
 
                 final JSONObject fullName = user.getJSONObject("gd$name");
-                if (fullName.has("gd$familyName") && fullName.has("gd$givenName")) {
-                    final String lastName = fullName.getJSONObject("gd$familyName").getString("$t");
-                    final String firstName = fullName.getJSONObject("gd$givenName").getString("$t");
-                    if (isNotEmpty(birthdayDate, lastName, firstName)) {
+                final String lastName =
+                        fullName.has("gd$familyName") ? fullName.getJSONObject("gd$familyName").getString("$t") : null;
+                final String firstName =
+                        fullName.has("gd$givenName") ? fullName.getJSONObject("gd$givenName").getString("$t") : null;
+                final String additionalName = fullName.has("gd$additionalName") ?
+                        fullName.getJSONObject("gd$additionalName").getString("$t") : null;
+                final String title = user.has("title") ? user.getJSONObject("title").getString("$t") : additionalName;
 
-                        final String uid = user.getJSONObject("id").getString("$t");
-                        final User existedUser = findUserById(readDataSource, uid);
-                        final User mergedUser;
-                        final boolean isExist = existedUser != null;
-                        if (isExist) {
-                            mergedUser = existedUser;
-                            Log.d(TAG, "User with uid= " + uid + " already exist");
-                        } else {
-                            mergedUser = new User();
-                            setUid(mergedUser, uid);
-                            Log.d(TAG, "User with uid = " + uid + " created");
-                        }
+                if (isNotEmpty(birthdayDate) && (isNotEmpty(lastName) || isNotEmpty(firstName) || isNotEmpty(title))) {
 
-                        mergedUser.setFirstName(firstName);
-                        mergedUser.setLastName(lastName);
+                    final String uid = user.getJSONObject("id").getString("$t");
+                    final User existedUser = findUserById(readDataSource, uid);
+                    final User mergedUser;
+                    final boolean isExist = existedUser != null;
+                    if (isExist) {
+                        mergedUser = existedUser;
+                        Log.d(TAG, "User with uid= " + uid + " already exist");
+                    } else {
+                        mergedUser = new User();
+                        setUid(mergedUser, uid);
+                        Log.d(TAG, "User with uid = " + uid + " created");
+                    }
 
-                        if (user.has("link")) {
-                            final JSONArray links = user.getJSONArray("link");
-                            for (int j = 0, ln = links.length(); j < ln; j++) {
-                                final JSONObject link = links.getJSONObject(j);
-                                if ("http://schemas.google.com/contacts/2008/rel#photo".equals(link.getString("rel"))) {
-                                    final String href = link.getString("href");
-                                    final String picUrl = href + "&access_token=" + getChain().getAccessToken();
-                                    Log.e(TAG, picUrl);
-                                    mergedUser.setPicUrl(picUrl);
-                                }
+                    mergedUser.setFirstName(firstName);
+                    mergedUser.setLastName(lastName);
+                    mergedUser.setAdditionalName(additionalName);
+                    mergedUser.setTitle(title);
+
+                    if (user.has("link")) {
+                        final JSONArray links = user.getJSONArray("link");
+                        for (int j = 0, ln = links.length(); j < ln; j++) {
+                            final JSONObject link = links.getJSONObject(j);
+                            if ("http://schemas.google.com/contacts/2008/rel#photo".equals(link.getString("rel"))) {
+                                final String href = link.getString("href");
+                                final String picUrl = href + "&access_token=" + accessToken;
+                                Log.e(TAG, picUrl);
+                                mergedUser.setPicUrl(picUrl);
                             }
                         }
+                    }
 
-                        BirthdayUtils.setBirthday(mergedUser, getAbstractBdayParser(birthdayDate));
-                        if (isExist) {
-                            writeDataSource.updateUser(mergedUser);
-                        } else {
-                            writeDataSource.createUser(mergedUser);
-                        }
-                        if (i % 10 == 0) {
-                            UserDataSource.refreshListActivity();
-                        }
+                    BirthdayUtils.setBirthday(mergedUser, getAbstractBdayParser(birthdayDate));
+                    if (isExist) {
+                        writeDataSource.updateUser(mergedUser);
+                    } else {
+                        writeDataSource.createUser(mergedUser);
+                    }
+                    if (i % 10 == 0) {
+                        UserDataSource.refreshListActivity();
                     }
                 }
-
             }
         }
     }

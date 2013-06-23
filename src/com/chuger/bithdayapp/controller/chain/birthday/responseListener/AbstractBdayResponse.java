@@ -41,6 +41,7 @@ public abstract class AbstractBdayResponse implements BirthdayResponse {
             readDataSource.openRead();
             final JSONObject jsonObject = new JSONObject(response);
             parseJSONObject(jsonObject, writeDataSource, readDataSource);
+            UserDataSource.refreshListActivity();
 
             writeDataSource.close();
             readDataSource.close();
@@ -56,7 +57,8 @@ public abstract class AbstractBdayResponse implements BirthdayResponse {
         }
     }
 
-    public void parseJSONObject(JSONObject jsonObject, UserDataSource writeDataSource, UserDataSource readDataSource) throws JSONException {
+    public void parseJSONObject(JSONObject jsonObject, UserDataSource writeDataSource, UserDataSource readDataSource)
+            throws JSONException {
         final AliasHolder aliasHolder = getAliasHolder();
         final JSONArray jsonUsers = jsonObject.getJSONArray(getAliasHolder().getJsonRootAlias());
         Log.e(TAG, jsonUsers.toString());
@@ -81,6 +83,14 @@ public abstract class AbstractBdayResponse implements BirthdayResponse {
 
                     mergedUser.setFirstName(user.getString(aliasHolder.getFirstNameAlias()));
                     mergedUser.setLastName(user.getString(aliasHolder.getLastNameAlias()));
+                    final String additionalNameAlias = aliasHolder.getAdditionalNameAlias();
+                    if (isNotEmpty(additionalNameAlias)) {
+                        mergedUser.setAdditionalName(user.getString(additionalNameAlias));
+                    }
+                    final String titleAlias = aliasHolder.getTitleAlias();
+                    if (isNotEmpty(titleAlias)) {
+                        mergedUser.setTitle(user.getString(titleAlias));
+                    }
                     mergedUser.setPicUrl(user.getString(aliasHolder.getPicUrlAlias()).replaceAll("\\/", "/"));
                     BirthdayUtils.setBirthday(mergedUser, getAbstractBdayParser(birthdayDate));
                     if (isExist) {

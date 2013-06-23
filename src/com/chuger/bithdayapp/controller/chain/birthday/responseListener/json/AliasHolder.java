@@ -18,4 +18,8 @@ public interface AliasHolder {
     String getPicUrlAlias();
 
     String getBirthdayAlias();
+
+    String getTitleAlias();
+
+    String getAdditionalNameAlias();
 }

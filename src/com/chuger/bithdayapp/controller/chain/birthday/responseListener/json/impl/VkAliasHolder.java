@@ -37,4 +37,14 @@ public final class VkAliasHolder implements AliasHolder{
     public String getBirthdayAlias() {
         return "bdate";
     }
+
+    @Override
+    public String getTitleAlias() {
+        return null;
+    }
+
+    @Override
+    public String getAdditionalNameAlias() {
+        return null;
+    }
 }
