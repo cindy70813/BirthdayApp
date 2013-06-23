@@ -6,6 +6,7 @@ import com.chuger.bithdayapp.model.domain.User;
 
 import java.util.Date;
 
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_ADDITIONAL_NAME;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_BIRTHDAY_DATE;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_DAY_COUNT;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_FB_ID;
@@ -14,6 +15,7 @@ import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_GOOGLE_ID;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_ID;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_LAST_NAME;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_PIC_URL;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_TITLE;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_UPDATED;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_VK_ID;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_YEAR_COUNT;
@@ -41,6 +43,8 @@ public class CursorHelper {
         user.setGoogleId(getString(COLUMN_GOOGLE_ID));
         user.setLastName(getString(COLUMN_LAST_NAME));
         user.setFirstName(getString(COLUMN_FIRST_NAME));
+        user.setAdditionalName(getString(COLUMN_ADDITIONAL_NAME));
+        user.setTitle(getString(COLUMN_TITLE));
         user.setPicUrl(getString(COLUMN_PIC_URL));
         final Long birthday = getLong(COLUMN_BIRTHDAY_DATE);
         if (birthday != null) {

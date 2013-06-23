@@ -5,6 +5,8 @@ import com.chuger.bithdayapp.model.utils.DateTimeUtils;
 import java.io.Serializable;
 import java.util.Date;
 
+import static com.chuger.bithdayapp.model.utils.StringUtils.isNotEmpty;
+
 /**
  * User: Acer5740
  * Date: 08.02.12
@@ -19,12 +21,16 @@ public class User implements Serializable {
     private String googleId;
     private String firstName;
     private String lastName;
+    private String additionalName;
+    private String title;
     private String picUrl;
     private Date birthday;
     private Boolean yearUnknown;
     private Date updated;
     private Integer yearCount;
     private Integer dayCount;
+    // transient
+    private String displayName;
 
     public User() {
     }
@@ -129,5 +135,37 @@ public class User implements Serializable {
 
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
+    }
+
+    public String getAdditionalName() {
+        return additionalName;
+    }
+
+    public void setAdditionalName(String additionalName) {
+        this.additionalName = additionalName;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDisplayName() {
+        if (displayName == null) {
+            if (isNotEmpty(title)) {
+                displayName = title;
+            } else {
+                displayName = (isNotEmpty(lastName) ? lastName + " " : "") +
+                        (isNotEmpty(firstName) ? firstName + " " : "") +
+                        (isNotEmpty(additionalName) ? additionalName : "");
+            }
+            if (displayName != null) {
+                displayName = displayName.trim();
+            }
+        }
+        return displayName;
     }
 }

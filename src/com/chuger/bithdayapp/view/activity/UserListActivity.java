@@ -78,7 +78,7 @@ public class UserListActivity extends ListActivity {
                     final Integer yearCountInt = user.getYearCount();
                     final Integer dayCountInt = user.getDayCount();
 
-                    userInfo.setText(user.getLastName() + " " + user.getFirstName());
+                    userInfo.setText(user.getDisplayName());
                     yearCount.setText(
                             !isUnknownYear && yearCountInt != null && yearCountInt > 0 ? yearCountInt + " year" :
                                     "n/a");
@@ -128,14 +128,6 @@ public class UserListActivity extends ListActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        final MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         final String chainAlias;
         final int itemId = item.getItemId();
@@ -165,10 +157,20 @@ public class UserListActivity extends ListActivity {
                 chainAlias = null;
                 Log.d(TAG, String.format("OnClick action for view with id[%d] not found", itemId));
         }
-        if (StringUtils.isNotEmpty(chainAlias)) {
+        if (!isOnline(this)) {
+            Toast.makeText(getApplicationContext(), "Check connection to internet", Toast.LENGTH_LONG).show();
+        } else if (StringUtils.isNotEmpty(chainAlias)) {
             getChain(chainAlias).getAuthRequest().onClick(this.getListView());
         }
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        final MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
     //    private static final int NOTIFY_ID = 1;

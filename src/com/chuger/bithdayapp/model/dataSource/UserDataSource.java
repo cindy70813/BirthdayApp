@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.ALL_COLUMNS;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_ADDITIONAL_NAME;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_BIRTHDAY_DATE;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_DAY_COUNT;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_FB_ID;
@@ -24,6 +25,7 @@ import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_GOOGLE_ID;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_ID;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_LAST_NAME;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_PIC_URL;
+import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_TITLE;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_UPDATED;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_VK_ID;
 import static com.chuger.bithdayapp.model.db.UserOpenHelper.COLUMN_YEAR_COUNT;
@@ -73,7 +75,7 @@ public class UserDataSource {
         return listActivity;
     }
 
-    public static void refreshListActivity(){
+    public static void refreshListActivity() {
         if (listActivity != null) {
             final CursorAdapter cursorAdapter = (CursorAdapter) listActivity.getListAdapter();
             cursorAdapter.getCursor().requery();
@@ -116,11 +118,19 @@ public class UserDataSource {
         }
         final String lastName = user.getLastName();
         if (isNotEmpty(lastName)) {
-            values.put(COLUMN_LAST_NAME, lastName);
+            values.put(COLUMN_LAST_NAME, lastName.trim());
         }
         final String firstName = user.getFirstName();
         if (isNotEmpty(firstName)) {
-            values.put(COLUMN_FIRST_NAME, firstName);
+            values.put(COLUMN_FIRST_NAME, firstName.trim());
+        }
+        final String additionalName = user.getAdditionalName();
+        if (isNotEmpty(additionalName)) {
+            values.put(COLUMN_ADDITIONAL_NAME, additionalName.trim());
+        }
+        final String title = user.getTitle();
+        if (isNotEmpty(title)) {
+            values.put(COLUMN_TITLE, title.trim());
         }
         final String picUrl = user.getPicUrl();
         if (isNotEmpty(picUrl)) {
@@ -178,7 +188,8 @@ public class UserDataSource {
     }
 
     public User findByGoogleId(final String id) {
-        final Cursor cursor = database.query(TABLE_USER, ALL_COLUMNS, COLUMN_GOOGLE_ID + "='" + id +"'", null, null, null, null);
+        final Cursor cursor =
+                database.query(TABLE_USER, ALL_COLUMNS, COLUMN_GOOGLE_ID + "='" + id + "'", null, null, null, null);
         return findUser(cursor);
     }
 

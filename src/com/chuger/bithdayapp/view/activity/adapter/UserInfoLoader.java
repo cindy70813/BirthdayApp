@@ -91,8 +91,7 @@ public class UserInfoLoader {
                         viewHolder.birthday.setText(new DateTime(birthdayDate).toString(formatter));
                     }
 
-                    final String surnameName = user.getLastName() + " " + user.getFirstName();
-                    viewHolder.userInfo.setText(surnameName.trim());
+                    viewHolder.userInfo.setText(user.getDisplayName());
                     imageLoader.DisplayImage(user.getPicUrl(), viewHolder.imageView);
                 }
             } catch (NullPointerException e) {
